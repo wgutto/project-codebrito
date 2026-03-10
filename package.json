@@ -1,0 +1,37 @@
+{
+  "name": "project-codebrito",
+  "version": "1.0.0",
+  "description": "Projeto plataforma de estudos",
+  "homepage": "https://github.com/wgutto/project-codebrito#readme",
+  "bugs": {
+    "url": "https://github.com/wgutto/project-codebrito/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wgutto/project-codebrito.git"
+  },
+  "license": "ISC",
+  "author": "Augusto Brito",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write src/**/*.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1"
+  }
+}
