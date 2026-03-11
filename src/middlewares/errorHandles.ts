@@ -1,5 +1,7 @@
+import type { ErrorRequestHandler } from "express"
+
 // eslint-disable-next-line no-unused-vars
-export const errorHandler = (error, req, res, next) => {
+export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     const status = error.status || 500
     const message = error.message || "Internal Server Error"
 
