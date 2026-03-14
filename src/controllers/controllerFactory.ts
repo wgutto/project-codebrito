@@ -3,7 +3,7 @@ import type { CrudService } from "../services/serviceFactory.js"
 
 const parseId = (raw: string | undefined): number | null => {
     const id = Number(raw)
-    return isNaN(id) || raw === undefined ? null : id
+    return isNaN(id) || raw === undefined || raw === "" || id <= 0 ? null : id
 }
 
 export const createController = <TModel, TCreateInput, TUpdateInput>(
