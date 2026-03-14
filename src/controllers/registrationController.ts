@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { getRegistrationByStudent } from "../services/getRegistrationByStudent.js";
+import { getRegistrationByStudent } from "../services/registrationService.js";
 
 export const getStudentRegistrationsController: RequestHandler = async (req, res, next) => {
     const id = req.params.id
