@@ -14,7 +14,8 @@ export const registrationService = createService<Registration, RegistrationUnche
 export const getRegistrationByStudent = async (id: number) => {
     const data = await prisma.user.findUnique({
         where: {
-            id
+            id,
+            deletedAt: null
         },
         include: {
             registrations: true
