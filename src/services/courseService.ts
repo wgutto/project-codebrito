@@ -1,9 +1,9 @@
+import type { CreateCourseDto, UpdateCourseDto } from "../config/validators/courseSchema.js";
 import type { Course } from "../lib/generated/prisma/client.js";
-import type { CourseUncheckedCreateInput, CourseUpdateInput } from "../lib/generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
 import { createService } from "./serviceFactory.js";
 
-export const courseService = createService<Course, CourseUncheckedCreateInput, CourseUpdateInput>({
+export const courseService = createService<Course, CreateCourseDto, UpdateCourseDto>({
     findMany:         ()               => prisma.course.findMany(),
     findUnique:       ({ where })      => prisma.course.findUnique({ where }),
     create:           ({ data })       => prisma.course.create({ data }),

@@ -1,9 +1,9 @@
+import type { CreateCategoryDto, UpdateCategoryDto } from "../config/validators/categorySchema.js";
 import type { Category } from "../lib/generated/prisma/client.js";
-import type { CategoryUncheckedCreateInput, CategoryUpdateInput } from "../lib/generated/prisma/models.js";
 import { prisma } from "../lib/prisma.js";
 import { createService } from "./serviceFactory.js";
 
-export const categoryService = createService<Category, CategoryUncheckedCreateInput, CategoryUpdateInput>({
+export const categoryService = createService<Category, CreateCategoryDto, UpdateCategoryDto>({
     findMany:         ()               => prisma.category.findMany(),
     findUnique:       ({ where })      => prisma.category.findUnique({ where }),
     create:           ({ data })       => prisma.category.create({ data }),

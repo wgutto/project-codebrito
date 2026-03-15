@@ -1,13 +1,16 @@
 import type { RequestHandler } from "express";
 import { getRegistrationByStudent, registrationService } from "../services/registrationService.js";
-import { createController } from "./controllerFactory.js";
+import { createController, idSchema } from "./controllerFactory.js";
+import { createRegistrationSchema, updateRegistrationSchema } from "../config/validators/registrationSchema.js";
 
-export const registrationController = createController(registrationService)
+export const registrationController = createController(registrationService, createRegistrationSchema, updateRegistrationSchema)
 
 export const getStudentRegistrationsController: RequestHandler = async (req, res, next) => {
-    const id = req.params.id
     try {
-        const data = await getRegistrationByStudent(Number(id))
+        const idParsed = idSchema.safeParse(req.params.id)
+        if(!idParsed.success) return res.status(400).json({ message: idParsed.error.issues })
+        
+        const data = await getRegistrationByStudent(Number(idParsed))
 
         if(!data) return res.status(404).json({
             message: "Não encontrado"

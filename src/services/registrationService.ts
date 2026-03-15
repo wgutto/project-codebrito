@@ -1,9 +1,9 @@
+import type { CreateRegistrationDto, UpdateRegistrationDto } from "../config/validators/registrationSchema.js"
 import type { Registration } from "../lib/generated/prisma/client.js"
-import type { RegistrationUncheckedCreateInput, RegistrationUpdateInput } from "../lib/generated/prisma/models.js"
 import { prisma } from "../lib/prisma.js"
 import { createService } from "./serviceFactory.js"
 
-export const registrationService = createService<Registration, RegistrationUncheckedCreateInput, RegistrationUpdateInput>({
+export const registrationService = createService<Registration, CreateRegistrationDto, UpdateRegistrationDto>({
     findMany:         ()               => prisma.registration.findMany(),
     findUnique:       ({ where })      => prisma.registration.findUnique({ where }),
     create:           ({ data })       => prisma.registration.create({ data }),
