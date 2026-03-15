@@ -1,5 +1,5 @@
 import express from "express"
-import { userController } from "../controllers/userController.js"
+import { restoreUserController, userController } from "../controllers/userController.js"
 import { getStudentRegistrationsController } from "../controllers/registrationController.js"
 
 const userRoutes = express.Router()
@@ -11,6 +11,7 @@ userRoutes.route("/users")
 userRoutes.route("/users/:id")
     .get(userController.getById)
     .put(userController.update)
+    .patch(restoreUserController)
     .delete(userController.remove)
 
 userRoutes.get("/users/:id/matriculas", getStudentRegistrationsController)

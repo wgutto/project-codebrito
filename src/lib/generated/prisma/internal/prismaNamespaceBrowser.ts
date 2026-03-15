@@ -80,6 +80,7 @@ export const UserScalarFieldEnum = {
   cpf: 'cpf',
   status: 'status',
   role: 'role',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -93,6 +94,7 @@ export const CourseScalarFieldEnum = {
   description: 'description',
   categoryId: 'categoryId',
   teacherId: 'teacherId',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -105,6 +107,7 @@ export const RegistrationScalarFieldEnum = {
   studentId: 'studentId',
   courseId: 'courseId',
   status: 'status',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -115,6 +118,7 @@ export type RegistrationScalarFieldEnum = (typeof RegistrationScalarFieldEnum)[k
 export const CategoryScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -136,4 +140,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

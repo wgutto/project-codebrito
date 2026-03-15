@@ -43,6 +43,7 @@ export type RegistrationMinAggregateOutputType = {
   studentId: number | null
   courseId: number | null
   status: boolean | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type RegistrationMaxAggregateOutputType = {
   studentId: number | null
   courseId: number | null
   status: boolean | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -61,6 +63,7 @@ export type RegistrationCountAggregateOutputType = {
   studentId: number
   courseId: number
   status: number
+  deletedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -84,6 +87,7 @@ export type RegistrationMinAggregateInputType = {
   studentId?: true
   courseId?: true
   status?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -93,6 +97,7 @@ export type RegistrationMaxAggregateInputType = {
   studentId?: true
   courseId?: true
   status?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +107,7 @@ export type RegistrationCountAggregateInputType = {
   studentId?: true
   courseId?: true
   status?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -198,6 +204,7 @@ export type RegistrationGroupByOutputType = {
   studentId: number
   courseId: number
   status: boolean
+  deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: RegistrationCountAggregateOutputType | null
@@ -230,6 +237,7 @@ export type RegistrationWhereInput = {
   studentId?: Prisma.IntFilter<"Registration"> | number
   courseId?: Prisma.IntFilter<"Registration"> | number
   status?: Prisma.BoolFilter<"Registration"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -241,6 +249,7 @@ export type RegistrationOrderByWithRelationInput = {
   studentId?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -255,6 +264,7 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   studentId?: Prisma.IntFilter<"Registration"> | number
   courseId?: Prisma.IntFilter<"Registration"> | number
   status?: Prisma.BoolFilter<"Registration"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -266,6 +276,7 @@ export type RegistrationOrderByWithAggregationInput = {
   studentId?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RegistrationCountOrderByAggregateInput
@@ -283,12 +294,14 @@ export type RegistrationScalarWhereWithAggregatesInput = {
   studentId?: Prisma.IntWithAggregatesFilter<"Registration"> | number
   courseId?: Prisma.IntWithAggregatesFilter<"Registration"> | number
   status?: Prisma.BoolWithAggregatesFilter<"Registration"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Registration"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Registration"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Registration"> | Date | string
 }
 
 export type RegistrationCreateInput = {
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRegistrationsInput
@@ -300,12 +313,14 @@ export type RegistrationUncheckedCreateInput = {
   studentId: number
   courseId: number
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RegistrationUpdateInput = {
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -317,6 +332,7 @@ export type RegistrationUncheckedUpdateInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -326,12 +342,14 @@ export type RegistrationCreateManyInput = {
   studentId: number
   courseId: number
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RegistrationUpdateManyMutationInput = {
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -341,6 +359,7 @@ export type RegistrationUncheckedUpdateManyInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -360,6 +379,7 @@ export type RegistrationCountOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -375,6 +395,7 @@ export type RegistrationMaxOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -384,6 +405,7 @@ export type RegistrationMinOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -480,6 +502,7 @@ export type RegistrationUncheckedUpdateManyWithoutCourseNestedInput = {
 
 export type RegistrationCreateWithoutUserInput = {
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   course: Prisma.CourseCreateNestedOneWithoutRegistrationsInput
@@ -489,6 +512,7 @@ export type RegistrationUncheckedCreateWithoutUserInput = {
   id?: number
   courseId: number
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -527,12 +551,14 @@ export type RegistrationScalarWhereInput = {
   studentId?: Prisma.IntFilter<"Registration"> | number
   courseId?: Prisma.IntFilter<"Registration"> | number
   status?: Prisma.BoolFilter<"Registration"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Registration"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
 }
 
 export type RegistrationCreateWithoutCourseInput = {
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRegistrationsInput
@@ -542,6 +568,7 @@ export type RegistrationUncheckedCreateWithoutCourseInput = {
   id?: number
   studentId: number
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -576,12 +603,14 @@ export type RegistrationCreateManyUserInput = {
   id?: number
   courseId: number
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RegistrationUpdateWithoutUserInput = {
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   course?: Prisma.CourseUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -591,6 +620,7 @@ export type RegistrationUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -599,6 +629,7 @@ export type RegistrationUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -607,12 +638,14 @@ export type RegistrationCreateManyCourseInput = {
   id?: number
   studentId: number
   status?: boolean
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RegistrationUpdateWithoutCourseInput = {
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -622,6 +655,7 @@ export type RegistrationUncheckedUpdateWithoutCourseInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -630,6 +664,7 @@ export type RegistrationUncheckedUpdateManyWithoutCourseInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -641,6 +676,7 @@ export type RegistrationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   studentId?: boolean
   courseId?: boolean
   status?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -652,6 +688,7 @@ export type RegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   studentId?: boolean
   courseId?: boolean
   status?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -663,6 +700,7 @@ export type RegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   studentId?: boolean
   courseId?: boolean
   status?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -674,11 +712,12 @@ export type RegistrationSelectScalar = {
   studentId?: boolean
   courseId?: boolean
   status?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["registration"]>
+export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseId" | "status" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["registration"]>
 export type RegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
@@ -703,6 +742,7 @@ export type $RegistrationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     studentId: number
     courseId: number
     status: boolean
+    deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["registration"]>
@@ -1134,6 +1174,7 @@ export interface RegistrationFieldRefs {
   readonly studentId: Prisma.FieldRef<"Registration", 'Int'>
   readonly courseId: Prisma.FieldRef<"Registration", 'Int'>
   readonly status: Prisma.FieldRef<"Registration", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"Registration", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Registration", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Registration", 'DateTime'>
 }
