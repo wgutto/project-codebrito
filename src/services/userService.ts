@@ -1,27 +1,55 @@
-import type { CreateUserDto, UpdateUserDto,  } from "../config/validators/userSchema.js";
-import type { User } from "../lib/generated/prisma/client.js";
-import { prisma } from "../lib/prisma.js";
-import { createService } from "./serviceFactory.js";
+import e from "cors"
+import type {
+    CreateUserDto,
+    UpdateUserDto,
+} from "../config/validators/userSchema.js"
+import { Prisma, type User } from "../lib/generated/prisma/client.js"
+import { prisma } from "../lib/prisma.js"
+import { createService } from "./serviceFactory.js"
+import { AppError } from "../utils/AppError.js"
+
+const handlePrismaError = (error: unknown): never => {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") throw new AppError("Email ou CPF já cadastrado", 409)
+        if (error.code === "P2025") throw new AppError("Registro não encontrado", 404)
+    }
+    throw error
+}
 
 export const userService = createService<User, CreateUserDto, UpdateUserDto>({
-    findMany:         ()               => prisma.user.findMany({ where: { deletedAt: null, status: true } }),
-    findUnique:       ({ where })      => prisma.user.findUnique({ where: { ...where, deletedAt: null, status: true } }),
-    create:           ({ data })       => prisma.user.create({ data }),
-    update:           ({ where, data })=> prisma.user.update({ where, data }),
-    delete:           ({ where })      => prisma.user.update({ where, data: { deletedAt: new Date() } }),
+    findMany: () =>
+        prisma.user.findMany({ where: { deletedAt: null, status: true } }),
+    findUnique: ({ where }) =>
+        prisma.user.findUnique({
+            where: { ...where, deletedAt: null, status: true },
+        }),
+    create: ({ data }) => prisma.user.create({ data }).catch(handlePrismaError),
+    update: ({ where, data }) => prisma.user.update({ where, data }),
+    delete: ({ where }) =>
+        prisma.user.update({ where, data: { deletedAt: new Date() } }).catch(handlePrismaError),
 })
 
 export const restoreUserService = async (id: number) => {
-    const restored = await prisma.user.update({
+    const existsUser = await prisma.user.findUnique({
         where: {
             id
-        },
-        data: {
-            deletedAt: null
         }
     })
 
-    return restored
+    if (existsUser) {
+        const restored = await prisma.user.update({
+            where: {
+                id
+            },
+            data: {
+                deletedAt: null,
+            },
+        })
+        
+        return restored
+    } else {
+        return null
+    }
 }
 
 export const getAllUsersService = async () => {
