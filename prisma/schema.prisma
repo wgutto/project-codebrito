@@ -54,6 +54,7 @@ model Registration {
   user   User   @relation(fields: [studentId], references: [id])
   course Course @relation(fields: [courseId], references: [id])
 
+  @@unique([studentId, courseId])
   @@map("registrations")
 }
 

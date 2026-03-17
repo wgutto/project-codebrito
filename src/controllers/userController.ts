@@ -1,18 +1,26 @@
 import type { RequestHandler } from "express"
-import { getAllUsersService, restoreUserService, userService } from "../services/userService.js"
+import {
+    getAllUsersService,
+    restoreUserService,
+    userService,
+} from "../services/userService.js"
 import { createController, idSchema } from "./controllerFactory.js"
-import { createUserSchema, updateUserSchema } from "../config/validators/userSchema.js"
-import { AppError } from "../utils/AppError.js"
+import {
+    createUserSchema,
+    updateUserSchema,
+} from "../config/validators/userSchema.js"
 
-export const userController = createController(userService, createUserSchema, updateUserSchema)
+export const userController = createController(
+    userService,
+    createUserSchema,
+    updateUserSchema,
+)
 
 export const restoreUserController: RequestHandler = async (req, res, next) => {
     try {
         const idParsed = idSchema.parse(req.params.id)
 
-        const restored = await restoreUserService(Number(idParsed))
-
-        if(!restored) return next(new AppError("Estudante não encontrado", 404))
+        await restoreUserService(idParsed)
 
         return res.status(200).json({
             message: "Usuário restaurado com sucesso"
