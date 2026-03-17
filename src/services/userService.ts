@@ -46,7 +46,7 @@ export const restoreUserService = async (id: number) => {
     })
 
     if (!existsUser) throw new AppError("Usuário não encontrado", 404)
-    
+
     const restored = await prisma.user.update({
         where: {
             id,

@@ -23,7 +23,7 @@ export const restoreUserController: RequestHandler = async (req, res, next) => {
         await restoreUserService(idParsed)
 
         return res.status(200).json({
-            message: "Usuário restaurado com sucesso"
+            message: "Usuário restaurado com sucesso",
         })
     } catch (error) {
         next(error)

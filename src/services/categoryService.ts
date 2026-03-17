@@ -24,7 +24,7 @@ export const categoryService = createService<
     findUnique: async ({ where }) => {
         const category = await prisma.category.findUnique({ where })
 
-        if(!category) throw new AppError("Categoria não encontrada", 404)
+        if (!category) throw new AppError("Categoria não encontrada", 404)
 
         return category
     },

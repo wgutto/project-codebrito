@@ -24,7 +24,7 @@ export const courseService = createService<
     findUnique: async ({ where }) => {
         const course = await prisma.course.findUnique({ where })
 
-        if(!course) throw new AppError("Curso não encontrado", 404)
+        if (!course) throw new AppError("Curso não encontrado", 404)
 
         return course
     },
