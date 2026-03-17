@@ -897,11 +897,19 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<
 >
 
 /**
- * Reference to a field of type 'Boolean'
+ * Reference to a field of type 'UserStatus'
  */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<
+export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
     $PrismaModel,
-    "Boolean"
+    "UserStatus"
+>
+
+/**
+ * Reference to a field of type 'UserStatus[]'
+ */
+export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "UserStatus[]"
 >
 
 /**
@@ -935,6 +943,18 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
     $PrismaModel,
     "DateTime[]"
 >
+
+/**
+ * Reference to a field of type 'RegistrationStatus'
+ */
+export type EnumRegistrationStatusFieldRefInput<$PrismaModel> =
+    FieldRefInputType<$PrismaModel, "RegistrationStatus">
+
+/**
+ * Reference to a field of type 'RegistrationStatus[]'
+ */
+export type ListEnumRegistrationStatusFieldRefInput<$PrismaModel> =
+    FieldRefInputType<$PrismaModel, "RegistrationStatus[]">
 
 /**
  * Reference to a field of type 'Float'

@@ -2,7 +2,11 @@ import type {
     CreateUserDto,
     UpdateUserDto,
 } from "../config/validators/userSchema.js"
-import { Prisma, type User } from "../lib/generated/prisma/client.js"
+import {
+    Prisma,
+    UserStatus,
+    type User,
+} from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { createService } from "./serviceFactory.js"
 import { AppError } from "../utils/AppError.js"
@@ -19,10 +23,12 @@ const handlePrismaError = (error: unknown): never => {
 
 export const userService = createService<User, CreateUserDto, UpdateUserDto>({
     findMany: () =>
-        prisma.user.findMany({ where: { deletedAt: null, status: true } }),
+        prisma.user.findMany({
+            where: { deletedAt: null, status: UserStatus.ACTIVE },
+        }),
     findUnique: async ({ where }) => {
         const user = await prisma.user.findUnique({
-            where: { ...where, deletedAt: null, status: true },
+            where: { ...where, deletedAt: null, status: UserStatus.ACTIVE },
         })
 
         if (!user) throw new AppError("Usuário não encontrado", 404)
@@ -34,7 +40,10 @@ export const userService = createService<User, CreateUserDto, UpdateUserDto>({
         prisma.user.update({ where, data }).catch(handlePrismaError),
     delete: ({ where }) =>
         prisma.user
-            .update({ where, data: { deletedAt: new Date() } })
+            .update({
+                where,
+                data: { deletedAt: new Date(), status: UserStatus.INACTIVE },
+            })
             .catch(handlePrismaError),
 })
 
@@ -53,6 +62,7 @@ export const restoreUserService = async (id: number) => {
         },
         data: {
             deletedAt: null,
+            status: UserStatus.ACTIVE,
         },
     })
 

@@ -1,6 +1,7 @@
 import type { RequestHandler } from "express"
 import {
-    getRegistrationByStudent,
+    getRegistrationByIdService,
+    getRegistrationByStudentService,
     registrationService,
 } from "../services/registrationService.js"
 import { createController, idSchema } from "./controllerFactory.js"
@@ -23,7 +24,26 @@ export const getStudentRegistrationsController: RequestHandler = async (
     try {
         const idParsed = idSchema.parse(req.params.id)
 
-        const data = await getRegistrationByStudent(idParsed)
+        const data = await getRegistrationByStudentService(idParsed)
+
+        return res.status(200).json(data)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getRegistrationByIdController: RequestHandler = async (
+    req,
+    res,
+    next,
+) => {
+    try {
+        const { studentId, id } = req.params
+
+        const studentIdParsed = idSchema.parse(studentId)
+        const idParsed = idSchema.parse(id)
+
+        const data = await getRegistrationByIdService(studentIdParsed, idParsed)
 
         return res.status(200).json(data)
     } catch (error) {

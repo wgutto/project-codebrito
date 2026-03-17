@@ -4,7 +4,10 @@ import {
     restoreUserController,
     userController,
 } from "../controllers/userController.js"
-import { getStudentRegistrationsController } from "../controllers/registrationController.js"
+import {
+    getRegistrationByIdController,
+    getStudentRegistrationsController,
+} from "../controllers/registrationController.js"
 
 const userRoutes = express.Router()
 
@@ -23,5 +26,9 @@ userRoutes
 
 userRoutes.patch("/users/:id/restaurar", restoreUserController)
 userRoutes.get("/users/:id/matriculas", getStudentRegistrationsController)
+userRoutes.get(
+    "/users/:studentId/matriculas/:id",
+    getRegistrationByIdController,
+)
 
 export default userRoutes

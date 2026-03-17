@@ -42,7 +42,7 @@ export type RegistrationMinAggregateOutputType = {
     id: number | null
     studentId: number | null
     courseId: number | null
-    status: boolean | null
+    status: $Enums.RegistrationStatus | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -52,7 +52,7 @@ export type RegistrationMaxAggregateOutputType = {
     id: number | null
     studentId: number | null
     courseId: number | null
-    status: boolean | null
+    status: $Enums.RegistrationStatus | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -214,7 +214,7 @@ export type RegistrationGroupByOutputType = {
     id: number
     studentId: number
     courseId: number
-    status: boolean
+    status: $Enums.RegistrationStatus
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -252,7 +252,9 @@ export type RegistrationWhereInput = {
     id?: Prisma.IntFilter<"Registration"> | number
     studentId?: Prisma.IntFilter<"Registration"> | number
     courseId?: Prisma.IntFilter<"Registration"> | number
-    status?: Prisma.BoolFilter<"Registration"> | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFilter<"Registration">
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.DateTimeNullableFilter<"Registration">
         | Date
@@ -287,7 +289,9 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<
         NOT?: Prisma.RegistrationWhereInput | Prisma.RegistrationWhereInput[]
         studentId?: Prisma.IntFilter<"Registration"> | number
         courseId?: Prisma.IntFilter<"Registration"> | number
-        status?: Prisma.BoolFilter<"Registration"> | boolean
+        status?:
+            | Prisma.EnumRegistrationStatusFilter<"Registration">
+            | $Enums.RegistrationStatus
         deletedAt?:
             | Prisma.DateTimeNullableFilter<"Registration">
             | Date
@@ -333,7 +337,9 @@ export type RegistrationScalarWhereWithAggregatesInput = {
     id?: Prisma.IntWithAggregatesFilter<"Registration"> | number
     studentId?: Prisma.IntWithAggregatesFilter<"Registration"> | number
     courseId?: Prisma.IntWithAggregatesFilter<"Registration"> | number
-    status?: Prisma.BoolWithAggregatesFilter<"Registration"> | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusWithAggregatesFilter<"Registration">
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.DateTimeNullableWithAggregatesFilter<"Registration">
         | Date
@@ -350,7 +356,7 @@ export type RegistrationScalarWhereWithAggregatesInput = {
 }
 
 export type RegistrationCreateInput = {
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -362,14 +368,16 @@ export type RegistrationUncheckedCreateInput = {
     id?: number
     studentId: number
     courseId: number
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
 }
 
 export type RegistrationUpdateInput = {
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -385,7 +393,9 @@ export type RegistrationUncheckedUpdateInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number
     studentId?: Prisma.IntFieldUpdateOperationsInput | number
     courseId?: Prisma.IntFieldUpdateOperationsInput | number
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -399,14 +409,16 @@ export type RegistrationCreateManyInput = {
     id?: number
     studentId: number
     courseId: number
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
 }
 
 export type RegistrationUpdateManyMutationInput = {
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -420,7 +432,9 @@ export type RegistrationUncheckedUpdateManyInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number
     studentId?: Prisma.IntFieldUpdateOperationsInput | number
     courseId?: Prisma.IntFieldUpdateOperationsInput | number
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -702,8 +716,12 @@ export type RegistrationUncheckedUpdateManyWithoutCourseNestedInput = {
         | Prisma.RegistrationScalarWhereInput[]
 }
 
+export type EnumRegistrationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.RegistrationStatus
+}
+
 export type RegistrationCreateWithoutUserInput = {
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -713,7 +731,7 @@ export type RegistrationCreateWithoutUserInput = {
 export type RegistrationUncheckedCreateWithoutUserInput = {
     id?: number
     courseId: number
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -773,7 +791,9 @@ export type RegistrationScalarWhereInput = {
     id?: Prisma.IntFilter<"Registration"> | number
     studentId?: Prisma.IntFilter<"Registration"> | number
     courseId?: Prisma.IntFilter<"Registration"> | number
-    status?: Prisma.BoolFilter<"Registration"> | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFilter<"Registration">
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.DateTimeNullableFilter<"Registration">
         | Date
@@ -784,7 +804,7 @@ export type RegistrationScalarWhereInput = {
 }
 
 export type RegistrationCreateWithoutCourseInput = {
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -794,7 +814,7 @@ export type RegistrationCreateWithoutCourseInput = {
 export type RegistrationUncheckedCreateWithoutCourseInput = {
     id?: number
     studentId: number
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -846,14 +866,16 @@ export type RegistrationUpdateManyWithWhereWithoutCourseInput = {
 export type RegistrationCreateManyUserInput = {
     id?: number
     courseId: number
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
 }
 
 export type RegistrationUpdateWithoutUserInput = {
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -867,7 +889,9 @@ export type RegistrationUpdateWithoutUserInput = {
 export type RegistrationUncheckedUpdateWithoutUserInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number
     courseId?: Prisma.IntFieldUpdateOperationsInput | number
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -880,7 +904,9 @@ export type RegistrationUncheckedUpdateWithoutUserInput = {
 export type RegistrationUncheckedUpdateManyWithoutUserInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number
     courseId?: Prisma.IntFieldUpdateOperationsInput | number
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -893,14 +919,16 @@ export type RegistrationUncheckedUpdateManyWithoutUserInput = {
 export type RegistrationCreateManyCourseInput = {
     id?: number
     studentId: number
-    status?: boolean
+    status?: $Enums.RegistrationStatus
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
 }
 
 export type RegistrationUpdateWithoutCourseInput = {
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -914,7 +942,9 @@ export type RegistrationUpdateWithoutCourseInput = {
 export type RegistrationUncheckedUpdateWithoutCourseInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number
     studentId?: Prisma.IntFieldUpdateOperationsInput | number
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -927,7 +957,9 @@ export type RegistrationUncheckedUpdateWithoutCourseInput = {
 export type RegistrationUncheckedUpdateManyWithoutCourseInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number
     studentId?: Prisma.IntFieldUpdateOperationsInput | number
-    status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+    status?:
+        | Prisma.EnumRegistrationStatusFieldUpdateOperationsInput
+        | $Enums.RegistrationStatus
     deletedAt?:
         | Prisma.NullableDateTimeFieldUpdateOperationsInput
         | Date
@@ -1050,7 +1082,7 @@ export type $RegistrationPayload<
             id: number
             studentId: number
             courseId: number
-            status: boolean
+            status: $Enums.RegistrationStatus
             deletedAt: Date | null
             createdAt: Date
             updatedAt: Date
@@ -1699,7 +1731,7 @@ export interface RegistrationFieldRefs {
     readonly id: Prisma.FieldRef<"Registration", "Int">
     readonly studentId: Prisma.FieldRef<"Registration", "Int">
     readonly courseId: Prisma.FieldRef<"Registration", "Int">
-    readonly status: Prisma.FieldRef<"Registration", "Boolean">
+    readonly status: Prisma.FieldRef<"Registration", "RegistrationStatus">
     readonly deletedAt: Prisma.FieldRef<"Registration", "DateTime">
     readonly createdAt: Prisma.FieldRef<"Registration", "DateTime">
     readonly updatedAt: Prisma.FieldRef<"Registration", "DateTime">

@@ -2,7 +2,12 @@ import type {
     CreateRegistrationDto,
     UpdateRegistrationDto,
 } from "../config/validators/registrationSchema.js"
-import { Prisma, type Registration } from "../lib/generated/prisma/client.js"
+import {
+    Prisma,
+    RegistrationStatus,
+    UserStatus,
+    type Registration,
+} from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { AppError } from "../utils/AppError.js"
 import { createService } from "./serviceFactory.js"
@@ -11,6 +16,8 @@ const handlePrismaError = (error: unknown): never => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === "P2025")
             throw new AppError("Matrícula não encontrada", 404)
+        if (error.code === "P2003")
+            throw new AppError("Estudante ou curso fornecido não existe", 404)
     }
     throw error
 }
@@ -36,18 +43,39 @@ export const registrationService = createService<
         prisma.registration.delete({ where }).catch(handlePrismaError),
 })
 
-export const getRegistrationByStudent = async (id: number) => {
+export const getRegistrationByStudentService = async (id: number) => {
     const data = await prisma.user.findUnique({
         where: {
             id,
             deletedAt: null,
+            status: UserStatus.ACTIVE,
         },
         include: {
-            registrations: true,
+            registrations: {
+                where: {
+                    status: RegistrationStatus.REGISTERED,
+                },
+            },
         },
     })
 
     if (!data) throw new AppError("Usuário não encontrado", 404)
+
+    return data
+}
+
+export const getRegistrationByIdService = async (
+    studentId: number,
+    id: number,
+) => {
+    const data = await prisma.registration.findFirst({
+        where: {
+            id,
+            studentId,
+        },
+    })
+
+    if (!data) throw new AppError("Matrícula não encontrada", 404)
 
     return data
 }

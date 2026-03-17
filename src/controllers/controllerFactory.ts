@@ -18,6 +18,7 @@ export const createController = <TModel, TCreateInput, TUpdateInput>(
 
             return res.status(200).json(data)
         } catch (error) {
+            console.error("Erro ao pegar todos os registros: ", error)
             next(error)
         }
     }) as RequestHandler,
@@ -30,6 +31,7 @@ export const createController = <TModel, TCreateInput, TUpdateInput>(
 
             return res.status(200).json(data)
         } catch (error) {
+            console.error("Erro ao pegar um registro específico: ", error)
             next(error)
         }
     }) as RequestHandler,
@@ -42,6 +44,7 @@ export const createController = <TModel, TCreateInput, TUpdateInput>(
 
             return res.status(201).json(created)
         } catch (error) {
+            console.error("Erro ao criar registro: ", error)
             next(error)
         }
     }) as RequestHandler,
@@ -55,6 +58,7 @@ export const createController = <TModel, TCreateInput, TUpdateInput>(
 
             return res.status(200).json(updated)
         } catch (error) {
+            console.error("Erro ao atualizar um registro: ", error)
             next(error)
         }
     }) as RequestHandler,
@@ -67,6 +71,7 @@ export const createController = <TModel, TCreateInput, TUpdateInput>(
 
             return res.status(200).json({ message: "Deletado com sucesso" })
         } catch (error) {
+            console.error("Erro ao deletar um registro: ", error)
             next(error)
         }
     }) as RequestHandler,
