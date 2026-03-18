@@ -5,8 +5,12 @@ import {
     userController,
 } from "../controllers/userController.js"
 import {
-    getRegistrationByIdController,
-    getStudentRegistrationsController,
+    createRegistrationByStudentController,
+    deleteRegistrationByStudentController,
+    getRegistrationByStudentController,
+    getRegistrationsActivesByStudentController,
+    getRegistrationsByStudentController,
+    updateRegistrationByStudentController,
 } from "../controllers/registrationController.js"
 
 const userRoutes = express.Router()
@@ -25,10 +29,25 @@ userRoutes
     .delete(userController.remove)
 
 userRoutes.patch("/users/:id/restaurar", restoreUserController)
-userRoutes.get("/users/:id/matriculas", getStudentRegistrationsController)
+
 userRoutes.get(
-    "/users/:studentId/matriculas/:id",
-    getRegistrationByIdController,
+    "/users/:id/matriculas",
+    getRegistrationsActivesByStudentController,
 )
+userRoutes.get(
+    "/users/:id/matriculas/todas",
+    getRegistrationsByStudentController,
+)
+
+userRoutes.post(
+    "/users/:studentId/matriculas/:courseId",
+    createRegistrationByStudentController,
+)
+
+userRoutes
+    .route("/users/:studentId/matriculas/:id")
+    .get(getRegistrationByStudentController)
+    .put(updateRegistrationByStudentController)
+    .delete(deleteRegistrationByStudentController)
 
 export default userRoutes

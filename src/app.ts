@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
-import { errorHandler } from "./middlewares/errorHandles.js"
+import { errorHandler } from "./middlewares/errorHandler.js"
 import routes from "./routes/index.js"
 
 const app = express()
