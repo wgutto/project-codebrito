@@ -30,10 +30,11 @@ model Course {
   description String
   categoryId  Int
   teacherId   Int
+
   deletedAt   DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
+  initialDate String @default("2026-03-17")
   registrations Registration[]
 
   teacher  User     @relation(fields: [teacherId], references: [id])

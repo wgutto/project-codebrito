@@ -47,6 +47,7 @@ export type CourseMinAggregateOutputType = {
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    initialDate: string | null
 }
 
 export type CourseMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type CourseMaxAggregateOutputType = {
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    initialDate: string | null
 }
 
 export type CourseCountAggregateOutputType = {
@@ -69,6 +71,7 @@ export type CourseCountAggregateOutputType = {
     deletedAt: number
     createdAt: number
     updatedAt: number
+    initialDate: number
     _all: number
 }
 
@@ -93,6 +96,7 @@ export type CourseMinAggregateInputType = {
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
+    initialDate?: true
 }
 
 export type CourseMaxAggregateInputType = {
@@ -104,6 +108,7 @@ export type CourseMaxAggregateInputType = {
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
+    initialDate?: true
 }
 
 export type CourseCountAggregateInputType = {
@@ -115,6 +120,7 @@ export type CourseCountAggregateInputType = {
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
+    initialDate?: true
     _all?: true
 }
 
@@ -220,6 +226,7 @@ export type CourseGroupByOutputType = {
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
+    initialDate: string
     _count: CourseCountAggregateOutputType | null
     _avg: CourseAvgAggregateOutputType | null
     _sum: CourseSumAggregateOutputType | null
@@ -253,6 +260,7 @@ export type CourseWhereInput = {
     deletedAt?: Prisma.DateTimeNullableFilter<"Course"> | Date | string | null
     createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
     updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
+    initialDate?: Prisma.StringFilter<"Course"> | string
     registrations?: Prisma.RegistrationListRelationFilter
     teacher?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
     category?: Prisma.XOR<
@@ -270,6 +278,7 @@ export type CourseOrderByWithRelationInput = {
     deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
     createdAt?: Prisma.SortOrder
     updatedAt?: Prisma.SortOrder
+    initialDate?: Prisma.SortOrder
     registrations?: Prisma.RegistrationOrderByRelationAggregateInput
     teacher?: Prisma.UserOrderByWithRelationInput
     category?: Prisma.CategoryOrderByWithRelationInput
@@ -292,6 +301,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<
             | null
         createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
         updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
+        initialDate?: Prisma.StringFilter<"Course"> | string
         registrations?: Prisma.RegistrationListRelationFilter
         teacher?: Prisma.XOR<
             Prisma.UserScalarRelationFilter,
@@ -314,6 +324,7 @@ export type CourseOrderByWithAggregationInput = {
     deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
     createdAt?: Prisma.SortOrder
     updatedAt?: Prisma.SortOrder
+    initialDate?: Prisma.SortOrder
     _count?: Prisma.CourseCountOrderByAggregateInput
     _avg?: Prisma.CourseAvgOrderByAggregateInput
     _max?: Prisma.CourseMaxOrderByAggregateInput
@@ -341,6 +352,7 @@ export type CourseScalarWhereWithAggregatesInput = {
         | null
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string
+    initialDate?: Prisma.StringWithAggregatesFilter<"Course"> | string
 }
 
 export type CourseCreateInput = {
@@ -349,6 +361,7 @@ export type CourseCreateInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     registrations?: Prisma.RegistrationCreateNestedManyWithoutCourseInput
     teacher: Prisma.UserCreateNestedOneWithoutCoursesInput
     category: Prisma.CategoryCreateNestedOneWithoutCoursesInput
@@ -363,6 +376,7 @@ export type CourseUncheckedCreateInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCourseInput
 }
 
@@ -376,6 +390,7 @@ export type CourseUpdateInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     registrations?: Prisma.RegistrationUpdateManyWithoutCourseNestedInput
     teacher?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: Prisma.CategoryUpdateOneRequiredWithoutCoursesNestedInput
@@ -394,6 +409,7 @@ export type CourseUncheckedUpdateInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCourseNestedInput
 }
 
@@ -406,6 +422,7 @@ export type CourseCreateManyInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
 }
 
 export type CourseUpdateManyMutationInput = {
@@ -418,6 +435,7 @@ export type CourseUpdateManyMutationInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CourseUncheckedUpdateManyInput = {
@@ -433,6 +451,7 @@ export type CourseUncheckedUpdateManyInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CourseListRelationFilter = {
@@ -454,6 +473,7 @@ export type CourseCountOrderByAggregateInput = {
     deletedAt?: Prisma.SortOrder
     createdAt?: Prisma.SortOrder
     updatedAt?: Prisma.SortOrder
+    initialDate?: Prisma.SortOrder
 }
 
 export type CourseAvgOrderByAggregateInput = {
@@ -471,6 +491,7 @@ export type CourseMaxOrderByAggregateInput = {
     deletedAt?: Prisma.SortOrder
     createdAt?: Prisma.SortOrder
     updatedAt?: Prisma.SortOrder
+    initialDate?: Prisma.SortOrder
 }
 
 export type CourseMinOrderByAggregateInput = {
@@ -482,6 +503,7 @@ export type CourseMinOrderByAggregateInput = {
     deletedAt?: Prisma.SortOrder
     createdAt?: Prisma.SortOrder
     updatedAt?: Prisma.SortOrder
+    initialDate?: Prisma.SortOrder
 }
 
 export type CourseSumOrderByAggregateInput = {
@@ -699,6 +721,7 @@ export type CourseCreateWithoutTeacherInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     registrations?: Prisma.RegistrationCreateNestedManyWithoutCourseInput
     category: Prisma.CategoryCreateNestedOneWithoutCoursesInput
 }
@@ -711,6 +734,7 @@ export type CourseUncheckedCreateWithoutTeacherInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCourseInput
 }
 
@@ -769,6 +793,7 @@ export type CourseScalarWhereInput = {
     deletedAt?: Prisma.DateTimeNullableFilter<"Course"> | Date | string | null
     createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
     updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
+    initialDate?: Prisma.StringFilter<"Course"> | string
 }
 
 export type CourseCreateWithoutRegistrationsInput = {
@@ -777,6 +802,7 @@ export type CourseCreateWithoutRegistrationsInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     teacher: Prisma.UserCreateNestedOneWithoutCoursesInput
     category: Prisma.CategoryCreateNestedOneWithoutCoursesInput
 }
@@ -790,6 +816,7 @@ export type CourseUncheckedCreateWithoutRegistrationsInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
 }
 
 export type CourseCreateOrConnectWithoutRegistrationsInput = {
@@ -830,6 +857,7 @@ export type CourseUpdateWithoutRegistrationsInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     teacher?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: Prisma.CategoryUpdateOneRequiredWithoutCoursesNestedInput
 }
@@ -847,6 +875,7 @@ export type CourseUncheckedUpdateWithoutRegistrationsInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CourseCreateWithoutCategoryInput = {
@@ -855,6 +884,7 @@ export type CourseCreateWithoutCategoryInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     registrations?: Prisma.RegistrationCreateNestedManyWithoutCourseInput
     teacher: Prisma.UserCreateNestedOneWithoutCoursesInput
 }
@@ -867,6 +897,7 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
     registrations?: Prisma.RegistrationUncheckedCreateNestedManyWithoutCourseInput
 }
 
@@ -921,6 +952,7 @@ export type CourseCreateManyTeacherInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
 }
 
 export type CourseUpdateWithoutTeacherInput = {
@@ -933,6 +965,7 @@ export type CourseUpdateWithoutTeacherInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     registrations?: Prisma.RegistrationUpdateManyWithoutCourseNestedInput
     category?: Prisma.CategoryUpdateOneRequiredWithoutCoursesNestedInput
 }
@@ -949,6 +982,7 @@ export type CourseUncheckedUpdateWithoutTeacherInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCourseNestedInput
 }
 
@@ -964,6 +998,7 @@ export type CourseUncheckedUpdateManyWithoutTeacherInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CourseCreateManyCategoryInput = {
@@ -974,6 +1009,7 @@ export type CourseCreateManyCategoryInput = {
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    initialDate?: string
 }
 
 export type CourseUpdateWithoutCategoryInput = {
@@ -986,6 +1022,7 @@ export type CourseUpdateWithoutCategoryInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     registrations?: Prisma.RegistrationUpdateManyWithoutCourseNestedInput
     teacher?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
 }
@@ -1002,6 +1039,7 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
     registrations?: Prisma.RegistrationUncheckedUpdateManyWithoutCourseNestedInput
 }
 
@@ -1017,6 +1055,7 @@ export type CourseUncheckedUpdateManyWithoutCategoryInput = {
         | null
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+    initialDate?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 /**
@@ -1070,6 +1109,7 @@ export type CourseSelect<
         deletedAt?: boolean
         createdAt?: boolean
         updatedAt?: boolean
+        initialDate?: boolean
         registrations?: boolean | Prisma.Course$registrationsArgs<ExtArgs>
         teacher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
         category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1091,6 +1131,7 @@ export type CourseSelectCreateManyAndReturn<
         deletedAt?: boolean
         createdAt?: boolean
         updatedAt?: boolean
+        initialDate?: boolean
         teacher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
         category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
     },
@@ -1110,6 +1151,7 @@ export type CourseSelectUpdateManyAndReturn<
         deletedAt?: boolean
         createdAt?: boolean
         updatedAt?: boolean
+        initialDate?: boolean
         teacher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
         category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
     },
@@ -1125,6 +1167,7 @@ export type CourseSelectScalar = {
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    initialDate?: boolean
 }
 
 export type CourseOmit<
@@ -1138,7 +1181,8 @@ export type CourseOmit<
     | "teacherId"
     | "deletedAt"
     | "createdAt"
-    | "updatedAt",
+    | "updatedAt"
+    | "initialDate",
     ExtArgs["result"]["course"]
 >
 export type CourseInclude<
@@ -1185,6 +1229,7 @@ export type $CoursePayload<
             deletedAt: Date | null
             createdAt: Date
             updatedAt: Date
+            initialDate: string
         },
         ExtArgs["result"]["course"]
     >
@@ -1827,6 +1872,7 @@ export interface CourseFieldRefs {
     readonly deletedAt: Prisma.FieldRef<"Course", "DateTime">
     readonly createdAt: Prisma.FieldRef<"Course", "DateTime">
     readonly updatedAt: Prisma.FieldRef<"Course", "DateTime">
+    readonly initialDate: Prisma.FieldRef<"Course", "String">
 }
 
 // Custom InputTypes

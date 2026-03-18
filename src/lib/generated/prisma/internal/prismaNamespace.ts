@@ -810,6 +810,7 @@ export const CourseScalarFieldEnum = {
     deletedAt: "deletedAt",
     createdAt: "createdAt",
     updatedAt: "updatedAt",
+    initialDate: "initialDate",
 } as const
 
 export type CourseScalarFieldEnum =

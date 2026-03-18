@@ -48,10 +48,10 @@ async function main() {
     ])
 
     const coursesData = [
-        { title: "Node.js do Zero",          description: "API REST com Node.js e TypeScript",    teacherId: ana!.id,   categoryId: catProg!.id     },
-        { title: "React na Prática",          description: "Criando interfaces modernas com React", teacherId: ana!.id,   categoryId: catProg!.id     },
-        { title: "UI Design para Iniciantes", description: "Fundamentos de design de interfaces",  teacherId: bruno!.id, categoryId: catDesign!.id   },
-        { title: "Marketing Digital",         description: "Estratégias de marketing online",       teacherId: bruno!.id, categoryId: catMarketing!.id },
+        { title: "Node.js do Zero",          description: "API REST com Node.js e TypeScript",    teacherId: ana!.id,   categoryId: catProg!.id, initialDate: "2025-03-20"    },
+        { title: "React na Prática",          description: "Criando interfaces modernas com React", teacherId: ana!.id,   categoryId: catProg!.id,  initialDate: "2025-08-24"   },
+        { title: "UI Design para Iniciantes", description: "Fundamentos de design de interfaces",  teacherId: bruno!.id, categoryId: catDesign!.id, initialDate: "2025-12-13"   },
+        { title: "Marketing Digital",         description: "Estratégias de marketing online",       teacherId: bruno!.id, categoryId: catMarketing!.id, initialDate: "2026-01-20" },
     ]
 
     for (const course of coursesData) {

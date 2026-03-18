@@ -30,15 +30,36 @@ npm run dev
 
 ## Endpoints
 
+### Usuários
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| GET/POST | `/api/users` | Listar / criar usuários |
-| GET/PUT/DELETE | `/api/users/:id` | Buscar, atualizar ou soft-delete de usuário |
+| GET/POST | `/api/users` | Listar ativos / criar usuários |
+| GET | `/api/users/todos` | Listar todos (incluindo inativos) |
+| GET/PUT/DELETE | `/api/users/:id` | Buscar, atualizar ou soft-delete |
 | PATCH | `/api/users/:id/restaurar` | Restaurar usuário deletado |
-| GET | `/api/users/:id/matriculas` | Listar matrículas de um aluno |
-| GET/POST | `/api/courses` | Listar / criar cursos |
+
+### Matrículas por Estudante
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/api/users/:id/matriculas` | Matrículas ativas do aluno |
+| GET | `/api/users/:id/matriculas/todas` | Todas as matrículas do aluno |
+| POST | `/api/users/:studentId/matriculas/:courseId` | Criar matrícula |
+| GET/PUT/DELETE | `/api/users/:studentId/matriculas/:id` | Gerenciar matrícula específica |
+
+### Cursos
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/api/courses?dataInicio=&dataFinal=` | Listar cursos (filtro opcional por data) |
+| POST | `/api/courses` | Criar curso |
 | GET/PUT/DELETE | `/api/courses/:id` | Buscar, atualizar ou deletar curso |
+
+### Categorias
+| Método | Rota | Descrição |
+|--------|------|-----------|
 | GET/POST | `/api/categories` | Listar / criar categorias |
 | GET/PUT/DELETE | `/api/categories/:id` | Buscar, atualizar ou deletar categoria |
-| GET/POST | `/api/registrations` | Listar / criar matrículas |
-| GET/PUT/DELETE | `/api/registrations/:id` | Buscar, atualizar ou deletar matrícula |
+
+### Matrículas (admin)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/api/registrations` | Listar todas as matrículas |

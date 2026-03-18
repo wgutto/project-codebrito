@@ -1,11 +1,14 @@
 import express from "express"
-import { courseController } from "../controllers/courseController.js"
+import {
+    courseController,
+    getAllCoursesFilteredController,
+} from "../controllers/courseController.js"
 
 const courseRoutes = express.Router()
 
 courseRoutes
     .route("/courses")
-    .get(courseController.getAll)
+    .get(getAllCoursesFilteredController)
     .post(courseController.create)
 
 courseRoutes

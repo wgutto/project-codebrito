@@ -34,3 +34,19 @@ export const courseService = createService<
     delete: ({ where }) =>
         prisma.course.delete({ where }).catch(handlePrismaError),
 })
+
+export const getAllCoursesFilteredService = (
+    dataInicio: string,
+    dataFinal: string,
+) => {
+    const where: Prisma.CourseWhereInput = {}
+
+    if (dataInicio || dataFinal) {
+        where.initialDate = {
+            ...(dataInicio && { gte: dataInicio }),
+            ...(dataFinal && { lte: dataFinal }),
+        }
+    }
+
+    return prisma.course.findMany({ where })
+}
