@@ -4,6 +4,7 @@ import type {
 } from "../config/validators/userSchema.js"
 import {
     Prisma,
+    RegistrationStatus,
     UserStatus,
     type User,
 } from "../lib/generated/prisma/client.js"
@@ -47,7 +48,42 @@ export const userService = createService<User, CreateUserDto, UpdateUserDto>({
             .catch(handlePrismaError),
 })
 
-export const restoreUserService = async (id: number) => {
+export const deleteStudentService = async (id: number) => {
+    const existsUser = await prisma.user.findUnique({
+        where: {
+            id,
+        },
+    })
+
+    if (!existsUser) throw new AppError("Usuário não encontrado", 404)
+
+    const student = await prisma.user.update({
+        where: {
+            id,
+        },
+        data: {
+            deletedAt: new Date(),
+            status: UserStatus.INACTIVE,
+        },
+    })
+
+    await prisma.registration.updateMany({
+        where: {
+            studentId: id,
+        },
+        data: {
+            deletedAt: new Date(),
+            status: RegistrationStatus.CANCELLED,
+        },
+    })
+
+    return student
+}
+
+export const restoreUserService = async (
+    id: number,
+    includeRegistrations = false,
+) => {
     const existsUser = await prisma.user.findUnique({
         where: {
             id,
@@ -65,6 +101,18 @@ export const restoreUserService = async (id: number) => {
             status: UserStatus.ACTIVE,
         },
     })
+
+    if (includeRegistrations) {
+        await prisma.registration.updateMany({
+            where: {
+                studentId: id,
+            },
+            data: {
+                deletedAt: null,
+                status: RegistrationStatus.REGISTERED,
+            },
+        })
+    }
 
     return restored
 }

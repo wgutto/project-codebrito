@@ -52,9 +52,10 @@ model Registration {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User   @relation(fields: [studentId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
-  
+  student User   @relation(fields: [studentId], references: [id])
+  course  Course @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId])
   @@map("registrations")
 }
 

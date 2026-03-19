@@ -2,7 +2,11 @@ import type {
     CreateCourseDto,
     UpdateCourseDto,
 } from "../config/validators/courseSchema.js"
-import { Prisma, type Course } from "../lib/generated/prisma/client.js"
+import {
+    Prisma,
+    RegistrationStatus,
+    type Course,
+} from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { AppError } from "../utils/AppError.js"
 import { createService } from "./serviceFactory.js"
@@ -28,18 +32,35 @@ export const courseService = createService<
 
         return course
     },
-    create: ({ data }) => prisma.course.create({ data }),
+    create: ({ data }) =>
+        prisma.course.create({
+            data: data as Prisma.CourseUncheckedCreateInput,
+        }),
     update: ({ where, data }) =>
-        prisma.course.update({ where, data }).catch(handlePrismaError),
+        prisma.course
+            .update({ where, data: data as Prisma.CourseUncheckedUpdateInput })
+            .catch(handlePrismaError),
     delete: ({ where }) =>
         prisma.course.delete({ where }).catch(handlePrismaError),
 })
 
+const isValidDateFormat = (date: string): boolean => {
+    return /^\d{4}-\d{2}-\d{2}$/.test(date)
+}
+
 export const getAllCoursesFilteredService = (
-    dataInicio: string,
-    dataFinal: string,
+    dataInicio?: string,
+    dataFinal?: string,
 ) => {
     const where: Prisma.CourseWhereInput = {}
+
+    if (dataInicio && !isValidDateFormat(dataInicio)) {
+        throw new AppError("dataInicio deve estar no formato YYYY-MM-DD", 400)
+    }
+
+    if (dataFinal && !isValidDateFormat(dataFinal)) {
+        throw new AppError("dataFinal deve estar no formato YYYY-MM-DD", 400)
+    }
 
     if (dataInicio || dataFinal) {
         where.initialDate = {
@@ -49,4 +70,22 @@ export const getAllCoursesFilteredService = (
     }
 
     return prisma.course.findMany({ where })
+}
+
+export const getCoursesCrowdedService = async (min: number) => {
+    const data = await prisma.registration.groupBy({
+        by: ["courseId"],
+        where: {
+            status: RegistrationStatus.REGISTERED,
+        },
+        having: {
+            courseId: {
+                _count: {
+                    gte: min,
+                },
+            },
+        },
+    })
+
+    return data
 }

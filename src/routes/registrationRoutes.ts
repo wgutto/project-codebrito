@@ -3,6 +3,6 @@ import { getAllRegistrationsController } from "../controllers/registrationContro
 
 const registrationRoutes = express.Router()
 
-registrationRoutes.get("/registrations", getAllRegistrationsController)
+registrationRoutes.get("/matriculas", getAllRegistrationsController)
 
 export default registrationRoutes

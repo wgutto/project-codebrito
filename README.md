@@ -36,30 +36,34 @@ npm run dev
 | GET/POST | `/api/users` | Listar ativos / criar usuários |
 | GET | `/api/users/todos` | Listar todos (incluindo inativos) |
 | GET/PUT/DELETE | `/api/users/:id` | Buscar, atualizar ou soft-delete |
-| PATCH | `/api/users/:id/restaurar` | Restaurar usuário deletado |
+| PUT | `/api/users/:id/restaurar` | Restaurar usuário deletado |
+| DELETE | `/api/users/estudante/:id` | Soft-delete de estudante (cancela matrículas) |
+| PUT | `/api/users/estudante/:id/restaurar` | Restaurar estudante (restaura matrículas) |
 
 ### Matrículas por Estudante
 | Método | Rota | Descrição |
 |--------|------|-----------|
 | GET | `/api/users/:id/matriculas` | Matrículas ativas do aluno |
 | GET | `/api/users/:id/matriculas/todas` | Todas as matrículas do aluno |
+| GET | `/api/users/:id/matriculas/confirmadas` | Matrículas confirmadas com contagem |
 | POST | `/api/users/:studentId/matriculas/:courseId` | Criar matrícula |
 | GET/PUT/DELETE | `/api/users/:studentId/matriculas/:id` | Gerenciar matrícula específica |
 
 ### Cursos
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| GET | `/api/courses?dataInicio=&dataFinal=` | Listar cursos (filtro opcional por data) |
-| POST | `/api/courses` | Criar curso |
-| GET/PUT/DELETE | `/api/courses/:id` | Buscar, atualizar ou deletar curso |
+| GET | `/api/cursos?dataInicio=&dataFinal=` | Listar cursos (filtro opcional por data) |
+| POST | `/api/cursos` | Criar curso |
+| GET | `/api/cursos/lotados` | Listar cursos com mais matrículas |
+| GET/PUT/DELETE | `/api/cursos/:id` | Buscar, atualizar ou deletar curso |
 
 ### Categorias
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| GET/POST | `/api/categories` | Listar / criar categorias |
-| GET/PUT/DELETE | `/api/categories/:id` | Buscar, atualizar ou deletar categoria |
+| GET/POST | `/api/categorias` | Listar / criar categorias |
+| GET/PUT/DELETE | `/api/categorias/:id` | Buscar, atualizar ou deletar categoria |
 
 ### Matrículas (admin)
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| GET | `/api/registrations` | Listar todas as matrículas |
+| GET | `/api/matriculas` | Listar todas as matrículas |

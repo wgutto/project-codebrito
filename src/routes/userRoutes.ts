@@ -1,12 +1,15 @@
 import express from "express"
 import {
+    deleteStudentController,
     getAllUsersController,
+    restoreStudentController,
     restoreUserController,
     userController,
 } from "../controllers/userController.js"
 import {
     createRegistrationByStudentController,
     deleteRegistrationByStudentController,
+    getRegistrationByStudentAndCountController,
     getRegistrationByStudentController,
     getRegistrationsActivesByStudentController,
     getRegistrationsByStudentController,
@@ -22,21 +25,30 @@ userRoutes
 
 userRoutes.get("/users/todos", getAllUsersController)
 
+userRoutes.delete("/users/estudante/:id", deleteStudentController)
+userRoutes.put("/users/estudante/:id/restaurar", restoreStudentController)
+
 userRoutes
     .route("/users/:id")
     .get(userController.getById)
     .put(userController.update)
     .delete(userController.remove)
 
-userRoutes.patch("/users/:id/restaurar", restoreUserController)
+userRoutes.put("/users/:id/restaurar", restoreUserController)
 
 userRoutes.get(
     "/users/:id/matriculas",
     getRegistrationsActivesByStudentController,
 )
+
 userRoutes.get(
     "/users/:id/matriculas/todas",
     getRegistrationsByStudentController,
+)
+
+userRoutes.get(
+    "/users/:id/matriculas/confirmadas",
+    getRegistrationByStudentAndCountController,
 )
 
 userRoutes.post(

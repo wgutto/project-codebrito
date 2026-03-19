@@ -33,6 +33,47 @@ export const getRegistrationsActivesByStudentService = async (id: number) => {
     return data
 }
 
+export const getRegistrationByStudentAndCountService = async (id: number) => {
+    const student = await prisma.user.findUnique({
+        where: {
+            id,
+        },
+        select: {
+            name: true,
+            email: true,
+        },
+    })
+
+    if (!student) throw new AppError("Usuário não encontrado", 404)
+
+    let data = await prisma.registration.findMany({
+        where: {
+            studentId: id,
+            status: RegistrationStatus.REGISTERED,
+        },
+        include: {
+            course: true,
+        },
+    })
+
+    const newData = data.map((registrations) => ({
+        ...registrations,
+        status:
+            registrations.status === RegistrationStatus.REGISTERED
+                ? "Matrículado"
+                : "Cancelado",
+    }))
+
+    const count = await prisma.registration.count({
+        where: {
+            studentId: id,
+            status: RegistrationStatus.REGISTERED,
+        },
+    })
+
+    return { student, count, newData }
+}
+
 export const getRegistrationsByStudentService = async (id: number) => {
     const data = await prisma.user.findUnique({
         where: {
@@ -79,7 +120,7 @@ export const createRegistrationByStudentService = async (
         },
     })
 
-    if (!student) throw new AppError("Estudante não encontrado", 404)
+    if (!student) throw new AppError("Usuário não encontrado", 404)
 
     const course = await prisma.course.findUnique({
         where: {
@@ -116,7 +157,7 @@ export const updateRegistrationByStudentService = async (
         },
     })
 
-    if (!student) throw new AppError("Estudante não encontrado", 404)
+    if (!student) throw new AppError("Usuário não encontrado", 404)
 
     const registration = await prisma.registration.findFirst({
         where: {
@@ -150,7 +191,7 @@ export const deleteRegistrationByStudentService = async (
         },
     })
 
-    if (!student) throw new AppError("Estudante não encontrado", 404)
+    if (!student) throw new AppError("Usuário não encontrado", 404)
 
     const registration = await prisma.registration.findFirst({
         where: {

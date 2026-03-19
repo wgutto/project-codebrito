@@ -4,12 +4,12 @@ import { categoryController } from "../controllers/categoryController.js"
 const categoryRoutes = express.Router()
 
 categoryRoutes
-    .route("/categories")
+    .route("/categorias")
     .get(categoryController.getAll)
     .post(categoryController.create)
 
 categoryRoutes
-    .route("/categories/:id")
+    .route("/categorias/:id")
     .get(categoryController.getById)
     .put(categoryController.update)
     .delete(categoryController.remove)

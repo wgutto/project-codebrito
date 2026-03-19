@@ -3,6 +3,7 @@ import {
     createRegistrationByStudentService,
     deleteRegistrationByStudentService,
     getAllRegistrationsService,
+    getRegistrationByStudentAndCountService,
     getRegistrationByStudentService,
     getRegistrationsActivesByStudentService,
     getRegistrationsByStudentService,
@@ -12,7 +13,7 @@ import { idSchema } from "./controllerFactory.js"
 import { updateRegistrationSchema } from "../config/validators/registrationSchema.js"
 
 export const getAllRegistrationsController: RequestHandler = async (
-    req,
+    _req,
     res,
     next,
 ) => {
@@ -75,6 +76,25 @@ export const getRegistrationByStudentController: RequestHandler = async (
         next(error)
     }
 }
+
+export const getRegistrationByStudentAndCountController: RequestHandler =
+    async (req, res, next) => {
+        try {
+            const id = req.params.id
+
+            const idParsed = idSchema.parse(id)
+
+            const data = await getRegistrationByStudentAndCountService(idParsed)
+
+            return res.status(200).json({
+                user: data.student,
+                count: data.count,
+                registrations: data.newData,
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 
 export const createRegistrationByStudentController: RequestHandler = async (
     req,
