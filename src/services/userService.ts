@@ -50,34 +50,30 @@ export const userService = createService<User, CreateUserDto, UpdateUserDto>({
 
 export const deleteStudentService = async (id: number) => {
     const existsUser = await prisma.user.findUnique({
-        where: {
-            id,
-        },
+        where: { id },
     })
 
     if (!existsUser) throw new AppError("Usuário não encontrado", 404)
 
-    const student = await prisma.user.update({
-        where: {
-            id,
-        },
-        data: {
-            deletedAt: new Date(),
-            status: UserStatus.INACTIVE,
-        },
-    })
+    return prisma.$transaction(async (tx) => {
+        const student = await tx.user.update({
+            where: { id },
+            data: {
+                deletedAt: new Date(),
+                status: UserStatus.INACTIVE,
+            },
+        })
 
-    await prisma.registration.updateMany({
-        where: {
-            studentId: id,
-        },
-        data: {
-            deletedAt: new Date(),
-            status: RegistrationStatus.CANCELLED,
-        },
-    })
+        await tx.registration.updateMany({
+            where: { studentId: id },
+            data: {
+                deletedAt: new Date(),
+                status: RegistrationStatus.CANCELLED,
+            },
+        })
 
-    return student
+        return student
+    })
 }
 
 export const restoreUserService = async (
@@ -85,36 +81,32 @@ export const restoreUserService = async (
     includeRegistrations = false,
 ) => {
     const existsUser = await prisma.user.findUnique({
-        where: {
-            id,
-        },
+        where: { id },
     })
 
     if (!existsUser) throw new AppError("Usuário não encontrado", 404)
 
-    const restored = await prisma.user.update({
-        where: {
-            id,
-        },
-        data: {
-            deletedAt: null,
-            status: UserStatus.ACTIVE,
-        },
-    })
-
-    if (includeRegistrations) {
-        await prisma.registration.updateMany({
-            where: {
-                studentId: id,
-            },
+    return prisma.$transaction(async (tx) => {
+        const restored = await tx.user.update({
+            where: { id },
             data: {
                 deletedAt: null,
-                status: RegistrationStatus.REGISTERED,
+                status: UserStatus.ACTIVE,
             },
         })
-    }
 
-    return restored
+        if (includeRegistrations) {
+            await tx.registration.updateMany({
+                where: { studentId: id },
+                data: {
+                    deletedAt: null,
+                    status: RegistrationStatus.REGISTERED,
+                },
+            })
+        }
+
+        return restored
+    })
 }
 
 export const getAllUsersService = async () => {
