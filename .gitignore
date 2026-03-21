@@ -1,9 +1,36 @@
 node_modules/
-.env
-dist/
-*.log
-/generated/prisma
 
-*.env.docker
+# Environment
+.env
+.env.example
+!.env.example
+
+# Build
+dist/
+build/
+
+# Prisma
+src/lib/generated/prisma/
+
+# Logs
+*.log
+
+# Docker
 docker-compose.override.yml
 postgres_data/
+mysql_data/
+mongodb_data/
+redis_data/
+*.env.docker
+
+# Testing
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
