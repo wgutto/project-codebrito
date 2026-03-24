@@ -1,69 +1,123 @@
-# CodeBrito API
+<div align="center">
 
-API REST de uma plataforma de ensino online. Gerencia usuários, cursos, categorias e matrículas.
+# 📚 CodeBrito API
 
-## Tecnologias
+**API REST para plataforma de ensino online com gerenciamento de usuários, cursos, categorias e matrículas.**
 
-- **Node.js** + **TypeScript**
-- **Express 5**
-- **Prisma 7** (PostgreSQL)
-- **Zod** — validação de requisições
-- **Helmet** + **CORS** — segurança
+[![Node.js](https://img.shields.io/badge/Node.js-22-green?logo=node.js)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Express](https://img.shields.io/badge/Express-5.2-lightgrey?logo=express)](https://expressjs.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-7.4-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
 
-## Destaques de Arquitetura
+</div>
 
-- Factory pattern em services e controllers — elimina boilerplate de CRUD em todos os recursos
-- Tratamento de erros centralizado via `AppError` + middleware de erros do Express
-- Soft delete em usuários e cursos
-- Validação de entrada com schemas Zod na camada de controller
+---
 
-## Como Rodar
+## 🚀 Quick Start
 
 ```bash
-npm install
+# Clonar e iniciar
+git clone https://github.com/wgutto/project-codebrito.git
+cd project-codebrito
+docker-compose up -d
 
-# configure sua DATABASE_URL no .env
-npx prisma migrate dev
-npm run seed
-npm run dev
+# Popular banco com dados de exemplo
+docker-compose exec app npx prisma migrate deploy
+docker-compose exec app npm run seed
+
+# Acessar
+# API: http://localhost:3000
+# Documentação: http://localhost:3000/api-docs
 ```
 
-## Endpoints
+---
 
-### Usuários
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET/POST | `/api/users` | Listar ativos / criar usuários |
-| GET | `/api/users/todos` | Listar todos (incluindo inativos) |
-| GET/PUT/DELETE | `/api/users/:id` | Buscar, atualizar ou soft-delete |
-| PUT | `/api/users/:id/restaurar` | Restaurar usuário deletado |
-| DELETE | `/api/users/estudante/:id` | Soft-delete de estudante (cancela matrículas) |
-| PUT | `/api/users/estudante/:id/restaurar` | Restaurar estudante (restaura matrículas) |
+## 🛠️ Stack
 
-### Matrículas por Estudante
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/users/:id/matriculas` | Matrículas ativas do aluno |
-| GET | `/api/users/:id/matriculas/todas` | Todas as matrículas do aluno |
-| GET | `/api/users/:id/matriculas/confirmadas` | Matrículas confirmadas com contagem |
-| POST | `/api/users/:studentId/matriculas/:courseId` | Criar matrícula |
-| GET/PUT/DELETE | `/api/users/:studentId/matriculas/:id` | Gerenciar matrícula específica |
+- **Node.js 22** + **TypeScript** + **Express 5**
+- **PostgreSQL 16** + **Prisma ORM**
+- **Zod** (validação) + **Helmet/CORS** (segurança)
+- **Docker** + **Swagger UI**
 
-### Cursos
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/cursos?dataInicio=&dataFinal=` | Listar cursos (filtro opcional por data) |
-| POST | `/api/cursos` | Criar curso |
-| GET | `/api/cursos/lotados` | Listar cursos com mais matrículas |
-| GET/PUT/DELETE | `/api/cursos/:id` | Buscar, atualizar ou deletar curso |
+---
 
-### Categorias
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET/POST | `/api/categorias` | Listar / criar categorias |
-| GET/PUT/DELETE | `/api/categorias/:id` | Buscar, atualizar ou deletar categoria |
+## 📚 Documentação
 
-### Matrículas (admin)
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/matriculas` | Listar todas as matrículas |
+Acesse a documentação interativa completa com todos os endpoints, schemas e exemplos:
+
+**👉 [http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
+
+**O Swagger inclui:**
+- ✅ 28 endpoints documentados (Usuários, Cursos, Categorias, Matrículas)
+- ✅ Testar API direto no navegador
+- ✅ Schemas de request/response
+- ✅ Exemplos de uso
+
+---
+
+## 💻 Comandos Úteis
+
+### Docker
+```bash
+docker-compose up -d              # Subir aplicação
+docker-compose down               # Parar aplicação
+docker-compose logs -f app        # Ver logs
+docker-compose restart app        # Reiniciar
+```
+
+### Banco de Dados
+```bash
+docker-compose exec app npx prisma studio      # Interface visual
+docker-compose exec app npx prisma migrate dev # Nova migration
+docker-compose exec app npm run seed           # Popular dados
+```
+
+### Desenvolvimento (sem Docker)
+```bash
+npm install                # Instalar dependências
+npm run dev               # Iniciar servidor
+npm run lint              # Verificar código
+npx prisma studio         # Interface do banco
+```
+
+---
+
+## 📦 Recursos
+
+- 👥 **Usuários** — Professores e estudantes com roles diferentes
+- 🎓 **Cursos** — Gerenciamento completo com categorias e filtros
+- 📝 **Matrículas** — Sistema de inscrições com status
+- 🗑️ **Soft Delete** — Remoção segura com restauração
+- 🔍 **Filtros** — Busca por data, status e relacionamentos
+- 🏭 **Factory Pattern** — Controllers e services reutilizáveis
+
+---
+
+## 🧪 Dados de Exemplo
+
+Após o seed, o banco contém:
+- 10 usuários (2 professores + 8 estudantes)
+- 3 categorias (Programação, Design, Marketing)
+- 4 cursos (Node.js, React, UI Design, Marketing Digital)
+- 10 matrículas
+
+---
+
+## 👨‍💻 Autor
+
+**Augusto Brito**
+
+- GitHub: [@wgutto](https://github.com/wgutto)
+- Repositório: [project-codebrito](https://github.com/wgutto/project-codebrito)
+
+---
+
+<div align="center">
+
+**Desenvolvido com Node.js, TypeScript e Prisma**
+
+Para mais detalhes, consulte o [Swagger](http://localhost:3000/api-docs) 📖
+
+</div>

@@ -1,0 +1,1055 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CodeBrito API",
+    "description": "API REST para plataforma de ensino online. Gerencia usuários, cursos, categorias e matrículas com suporte a soft delete e operações avançadas.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "CodeBrito",
+      "url": "https://github.com/wgutto/project-codebrito"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Servidor de Desenvolvimento"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Usuários",
+      "description": "Operações relacionadas a usuários (professores e estudantes)"
+    },
+    {
+      "name": "Cursos",
+      "description": "Gerenciamento de cursos"
+    },
+    {
+      "name": "Categorias",
+      "description": "Gerenciamento de categorias de cursos"
+    },
+    {
+      "name": "Matrículas",
+      "description": "Gerenciamento de matrículas de estudantes em cursos"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Listar usuários ativos",
+        "description": "Retorna todos os usuários com status ACTIVE",
+        "tags": ["Usuários"],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários ativos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar novo usuário",
+        "description": "Cria um novo usuário (professor ou estudante)",
+        "tags": ["Usuários"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          }
+        }
+      }
+    },
+    "/users/todos": {
+      "get": {
+        "summary": "Listar todos os usuários",
+        "description": "Retorna todos os usuários, incluindo inativos",
+        "tags": ["Usuários"],
+        "responses": {
+          "200": {
+            "description": "Lista completa de usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Buscar usuário por ID",
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar usuário",
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar usuário (soft delete)",
+        "description": "Realiza soft delete definindo deletedAt e status como INACTIVE",
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Usuário deletado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/users/{id}/restaurar": {
+      "put": {
+        "summary": "Restaurar usuário deletado",
+        "description": "Restaura um usuário removido via soft delete",
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário restaurado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/users/estudante/{id}": {
+      "delete": {
+        "summary": "Deletar estudante e cancelar matrículas",
+        "description": "Soft delete do estudante e cancela todas as suas matrículas ativas",
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Estudante deletado e matrículas canceladas"
+          },
+          "404": {
+            "description": "Estudante não encontrado"
+          }
+        }
+      }
+    },
+    "/users/estudante/{id}/restaurar": {
+      "put": {
+        "summary": "Restaurar estudante e suas matrículas",
+        "description": "Restaura o estudante e suas matrículas canceladas",
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estudante e matrículas restaurados"
+          },
+          "404": {
+            "description": "Estudante não encontrado"
+          }
+        }
+      }
+    },
+    "/users/{id}/matriculas": {
+      "get": {
+        "summary": "Listar matrículas ativas do estudante",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de matrículas ativas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Registration"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/matriculas/todas": {
+      "get": {
+        "summary": "Listar todas as matrículas do estudante",
+        "description": "Inclui matrículas ativas e canceladas",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista completa de matrículas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Registration"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/matriculas/confirmadas": {
+      "get": {
+        "summary": "Contar matrículas confirmadas",
+        "description": "Retorna quantidade e lista de matrículas com status REGISTERED",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matrículas confirmadas e contagem"
+          }
+        }
+      }
+    },
+    "/users/{studentId}/matriculas/{courseId}": {
+      "post": {
+        "summary": "Criar matrícula",
+        "description": "Matricula um estudante em um curso",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Matrícula criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registration"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Matrícula já existe"
+          }
+        }
+      }
+    },
+    "/users/{studentId}/matriculas/{id}": {
+      "get": {
+        "summary": "Buscar matrícula específica",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matrícula encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registration"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar matrícula",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matrícula atualizada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar matrícula",
+        "tags": ["Usuários", "Matrículas"],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Matrícula deletada"
+          }
+        }
+      }
+    },
+    "/cursos": {
+      "get": {
+        "summary": "Listar cursos com filtros opcionais",
+        "description": "Lista cursos. Pode filtrar por data de início",
+        "tags": ["Cursos"],
+        "parameters": [
+          {
+            "name": "dataInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Data inicial (>=)"
+          },
+          {
+            "name": "dataFinal",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Data final (<=)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de cursos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar novo curso",
+        "tags": ["Cursos"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Curso criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cursos/lotados": {
+      "get": {
+        "summary": "Listar cursos mais lotados",
+        "description": "Retorna cursos ordenados por número de matrículas",
+        "tags": ["Cursos"],
+        "responses": {
+          "200": {
+            "description": "Cursos ordenados por popularidade"
+          }
+        }
+      }
+    },
+    "/cursos/{id}": {
+      "get": {
+        "summary": "Buscar curso por ID",
+        "tags": ["Cursos"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Curso encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Curso não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar curso",
+        "tags": ["Cursos"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Curso atualizado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar curso (soft delete)",
+        "tags": ["Cursos"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Curso deletado"
+          }
+        }
+      }
+    },
+    "/categorias": {
+      "get": {
+        "summary": "Listar todas as categorias",
+        "tags": ["Categorias"],
+        "responses": {
+          "200": {
+            "description": "Lista de categorias",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar nova categoria",
+        "tags": ["Categorias"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria criada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categorias/{id}": {
+      "get": {
+        "summary": "Buscar categoria por ID",
+        "tags": ["Categorias"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar categoria",
+        "tags": ["Categorias"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria atualizada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar categoria",
+        "tags": ["Categorias"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Categoria deletada"
+          }
+        }
+      }
+    },
+    "/matriculas": {
+      "get": {
+        "summary": "Listar todas as matrículas",
+        "description": "Retorna todas as matrículas do sistema",
+        "tags": ["Matrículas"],
+        "responses": {
+          "200": {
+            "description": "Lista completa de matrículas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Registration"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "UserId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do usuário"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Ana Silva"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "ana.silva@email.com"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "111.111.111-01"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["TEACHER", "STUDENT"],
+            "example": "TEACHER"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ACTIVE", "INACTIVE"],
+            "example": "ACTIVE"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UserInput": {
+        "type": "object",
+        "required": ["name", "email", "cpf"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "João Pereira"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "joao.pereira@email.com"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "222.222.222-02"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["TEACHER", "STUDENT"],
+            "default": "STUDENT"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ACTIVE", "INACTIVE"],
+            "default": "ACTIVE"
+          }
+        }
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["TEACHER", "STUDENT"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ACTIVE", "INACTIVE"]
+          }
+        }
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Node.js do Zero"
+          },
+          "description": {
+            "type": "string",
+            "example": "API REST com Node.js e TypeScript"
+          },
+          "initialDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-03-20"
+          },
+          "categoryId": {
+            "type": "integer",
+            "example": 1
+          },
+          "teacherId": {
+            "type": "integer",
+            "example": 1
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CourseInput": {
+        "type": "object",
+        "required": ["title", "description", "categoryId", "teacherId"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "React Avançado"
+          },
+          "description": {
+            "type": "string",
+            "example": "Hooks, Context API e Performance"
+          },
+          "initialDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-05-15"
+          },
+          "categoryId": {
+            "type": "integer",
+            "example": 1
+          },
+          "teacherId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "CourseUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "initialDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "categoryId": {
+            "type": "integer"
+          },
+          "teacherId": {
+            "type": "integer"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Programação"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CategoryInput": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "DevOps"
+          }
+        }
+      },
+      "CategoryUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "Registration": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "studentId": {
+            "type": "integer",
+            "example": 3
+          },
+          "courseId": {
+            "type": "integer",
+            "example": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": ["REGISTERED", "CANCELLED"],
+            "example": "REGISTERED"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegistrationUpdate": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["REGISTERED", "CANCELLED"]
+          }
+        }
+      }
+    }
+  }
+}
