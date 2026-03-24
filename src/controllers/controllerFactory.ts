@@ -2,10 +2,7 @@ import type { RequestHandler } from "express"
 import type { CrudService } from "../services/serviceFactory.js"
 import z from "zod"
 
-export const idSchema = z.coerce
-    .number({ error: "ID inválido" })
-    .int({ error: "ID inválido" })
-    .positive({ error: "ID inválido" })
+export const idSchema = z.coerce.number({ error: "ID inválido" }).int({ error: "ID inválido" }).positive({ error: "ID inválido" })
 
 export const createController = <TModel, TCreateInput, TUpdateInput>(
     service: CrudService<TModel, TCreateInput, TUpdateInput>,

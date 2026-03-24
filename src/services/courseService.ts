@@ -1,34 +1,26 @@
-import type {
-    CreateCourseDto,
-    UpdateCourseDto,
-} from "../config/validators/courseSchema.js"
-import {
-    Prisma,
-    RegistrationStatus,
-    type Course,
-} from "../lib/generated/prisma/client.js"
+import type { CreateCourseDto, UpdateCourseDto } from "../config/validators/courseSchema.js"
+import { Prisma, RegistrationStatus, type Course } from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { AppError } from "../utils/AppError.js"
 import { createService } from "./serviceFactory.js"
 
 const handlePrismaError = (error: unknown): never => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2025")
+        if (error.code === "P2025") {
             throw new AppError("Curso não encontrado", 404)
+        }
     }
     throw error
 }
 
-export const courseService = createService<
-    Course,
-    CreateCourseDto,
-    UpdateCourseDto
->({
+export const courseService = createService<Course, CreateCourseDto, UpdateCourseDto>({
     findMany: () => prisma.course.findMany(),
     findUnique: async ({ where }) => {
         const course = await prisma.course.findUnique({ where })
 
-        if (!course) throw new AppError("Curso não encontrado", 404)
+        if (!course) {
+            throw new AppError("Curso não encontrado", 404)
+        }
 
         return course
     },
@@ -36,22 +28,15 @@ export const courseService = createService<
         prisma.course.create({
             data: data as Prisma.CourseUncheckedCreateInput,
         }),
-    update: ({ where, data }) =>
-        prisma.course
-            .update({ where, data: data as Prisma.CourseUncheckedUpdateInput })
-            .catch(handlePrismaError),
-    delete: ({ where }) =>
-        prisma.course.delete({ where }).catch(handlePrismaError),
+    update: ({ where, data }) => prisma.course.update({ where, data: data as Prisma.CourseUncheckedUpdateInput }).catch(handlePrismaError),
+    delete: ({ where }) => prisma.course.delete({ where }).catch(handlePrismaError),
 })
 
 const isValidDateFormat = (date: string): boolean => {
     return /^\d{4}-\d{2}-\d{2}$/.test(date)
 }
 
-export const getAllCoursesFilteredService = (
-    dataInicio?: string,
-    dataFinal?: string,
-) => {
+export const getAllCoursesFilteredService = (dataInicio?: string, dataFinal?: string) => {
     const where: Prisma.CourseWhereInput = {}
 
     if (dataInicio && !isValidDateFormat(dataInicio)) {

@@ -2,10 +2,7 @@ import z from "zod"
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/
 
-const removeUndefined = <T extends object>(obj: T) =>
-    Object.fromEntries(
-        Object.entries(obj).filter(([_, v]) => v !== undefined),
-    ) as T
+const removeUndefined = <T extends object>(obj: T) => Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined)) as T
 
 const baseCourseSchema = z.object({
     title: z
@@ -31,9 +28,7 @@ const baseCourseSchema = z.object({
 })
 
 export const createCourseSchema = baseCourseSchema.transform(removeUndefined)
-export const updateCourseSchema = baseCourseSchema
-    .partial()
-    .transform(removeUndefined)
+export const updateCourseSchema = baseCourseSchema.partial().transform(removeUndefined)
 
 export type CreateCourseDto = z.infer<typeof createCourseSchema>
 export type UpdateCourseDto = {

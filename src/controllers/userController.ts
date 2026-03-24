@@ -1,27 +1,11 @@
 import type { RequestHandler } from "express"
-import {
-    deleteStudentService,
-    getAllUsersService,
-    restoreUserService,
-    userService,
-} from "../services/userService.js"
+import { deleteStudentService, getAllUsersService, restoreUserService, userService } from "../services/userService.js"
 import { createController, idSchema } from "./controllerFactory.js"
-import {
-    createUserSchema,
-    updateUserSchema,
-} from "../config/validators/userSchema.js"
+import { createUserSchema, updateUserSchema } from "../config/validators/userSchema.js"
 
-export const userController = createController(
-    userService,
-    createUserSchema,
-    updateUserSchema,
-)
+export const userController = createController(userService, createUserSchema, updateUserSchema)
 
-export const deleteStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const deleteStudentController: RequestHandler = async (req, res, next) => {
     try {
         const idParsed = idSchema.parse(req.params.id)
 
@@ -33,11 +17,7 @@ export const deleteStudentController: RequestHandler = async (
     }
 }
 
-export const restoreStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const restoreStudentController: RequestHandler = async (req, res, next) => {
     try {
         const idParsed = idSchema.parse(req.params.id)
 
@@ -65,11 +45,7 @@ export const restoreUserController: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const getAllUsersController: RequestHandler = async (
-    _req,
-    res,
-    next,
-) => {
+export const getAllUsersController: RequestHandler = async (_req, res, next) => {
     try {
         const allUsers = await getAllUsersService()
 

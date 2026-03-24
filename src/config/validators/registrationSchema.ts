@@ -15,14 +15,10 @@ export const createRegistrationSchema = z.object({
         .default(RegistrationStatus.REGISTERED),
 })
 
-export const updateRegistrationSchema = createRegistrationSchema
-    .partial()
-    .transform((obj) => {
-        // Remove propriedades undefined automaticamente
-        return Object.fromEntries(
-            Object.entries(obj).filter(([_, v]) => v !== undefined),
-        )
-    })
+export const updateRegistrationSchema = createRegistrationSchema.partial().transform((obj) => {
+    // Remove propriedades undefined automaticamente
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined))
+})
 
 export type CreateRegistrationDto = z.infer<typeof createRegistrationSchema>
 export type UpdateRegistrationDto = {

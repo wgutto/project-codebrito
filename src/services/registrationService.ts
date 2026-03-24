@@ -1,7 +1,4 @@
-import {
-    RegistrationStatus,
-    UserStatus,
-} from "../lib/generated/prisma/client.js"
+import { RegistrationStatus, UserStatus } from "../lib/generated/prisma/client.js"
 import type { RegistrationUpdateInput } from "../lib/generated/prisma/models.js"
 import { prisma } from "../lib/prisma.js"
 import { AppError } from "../utils/AppError.js"
@@ -28,7 +25,9 @@ export const getRegistrationsActivesByStudentService = async (id: number) => {
         },
     })
 
-    if (!data) throw new AppError("Usuário não encontrado", 404)
+    if (!data) {
+        throw new AppError("Usuário não encontrado", 404)
+    }
 
     return data
 }
@@ -44,9 +43,11 @@ export const getRegistrationByStudentAndCountService = async (id: number) => {
         },
     })
 
-    if (!student) throw new AppError("Usuário não encontrado", 404)
+    if (!student) {
+        throw new AppError("Usuário não encontrado", 404)
+    }
 
-    let data = await prisma.registration.findMany({
+    const data = await prisma.registration.findMany({
         where: {
             studentId: id,
             status: RegistrationStatus.REGISTERED,
@@ -58,10 +59,7 @@ export const getRegistrationByStudentAndCountService = async (id: number) => {
 
     const newData = data.map((registrations) => ({
         ...registrations,
-        status:
-            registrations.status === RegistrationStatus.REGISTERED
-                ? "Matrículado"
-                : "Cancelado",
+        status: registrations.status === RegistrationStatus.REGISTERED ? "Matrículado" : "Cancelado",
     }))
 
     const count = await prisma.registration.count({
@@ -86,15 +84,14 @@ export const getRegistrationsByStudentService = async (id: number) => {
         },
     })
 
-    if (!data) throw new AppError("Usuário não encontrado", 404)
+    if (!data) {
+        throw new AppError("Usuário não encontrado", 404)
+    }
 
     return data
 }
 
-export const getRegistrationByStudentService = async (
-    studentId: number,
-    id: number,
-) => {
+export const getRegistrationByStudentService = async (studentId: number, id: number) => {
     const data = await prisma.registration.findFirst({
         where: {
             id,
@@ -102,15 +99,14 @@ export const getRegistrationByStudentService = async (
         },
     })
 
-    if (!data) throw new AppError("Matrícula não encontrada", 404)
+    if (!data) {
+        throw new AppError("Matrícula não encontrada", 404)
+    }
 
     return data
 }
 
-export const createRegistrationByStudentService = async (
-    studentId: number,
-    courseId: number,
-) => {
+export const createRegistrationByStudentService = async (studentId: number, courseId: number) => {
     const student = await prisma.user.findUnique({
         where: {
             id: studentId,
@@ -120,7 +116,9 @@ export const createRegistrationByStudentService = async (
         },
     })
 
-    if (!student) throw new AppError("Usuário não encontrado", 404)
+    if (!student) {
+        throw new AppError("Usuário não encontrado", 404)
+    }
 
     const course = await prisma.course.findUnique({
         where: {
@@ -131,7 +129,9 @@ export const createRegistrationByStudentService = async (
         },
     })
 
-    if (!course) throw new AppError("Curso não encontrado", 404)
+    if (!course) {
+        throw new AppError("Curso não encontrado", 404)
+    }
 
     const data = await prisma.registration.create({
         data: {
@@ -143,11 +143,7 @@ export const createRegistrationByStudentService = async (
     return data
 }
 
-export const updateRegistrationByStudentService = async (
-    studentId: number,
-    id: number,
-    data: RegistrationUpdateInput,
-) => {
+export const updateRegistrationByStudentService = async (studentId: number, id: number, data: RegistrationUpdateInput) => {
     const student = await prisma.user.findUnique({
         where: {
             id: studentId,
@@ -157,7 +153,9 @@ export const updateRegistrationByStudentService = async (
         },
     })
 
-    if (!student) throw new AppError("Usuário não encontrado", 404)
+    if (!student) {
+        throw new AppError("Usuário não encontrado", 404)
+    }
 
     const registration = await prisma.registration.findFirst({
         where: {
@@ -166,7 +164,9 @@ export const updateRegistrationByStudentService = async (
         },
     })
 
-    if (!registration) throw new AppError("Matrícula não encontrada", 404)
+    if (!registration) {
+        throw new AppError("Matrícula não encontrada", 404)
+    }
 
     const registrationUpdated = await prisma.registration.update({
         where: {
@@ -178,10 +178,7 @@ export const updateRegistrationByStudentService = async (
     return registrationUpdated
 }
 
-export const deleteRegistrationByStudentService = async (
-    studentId: number,
-    id: number,
-) => {
+export const deleteRegistrationByStudentService = async (studentId: number, id: number) => {
     const student = await prisma.user.findUnique({
         where: {
             id: studentId,
@@ -191,7 +188,9 @@ export const deleteRegistrationByStudentService = async (
         },
     })
 
-    if (!student) throw new AppError("Usuário não encontrado", 404)
+    if (!student) {
+        throw new AppError("Usuário não encontrado", 404)
+    }
 
     const registration = await prisma.registration.findFirst({
         where: {
@@ -200,7 +199,9 @@ export const deleteRegistrationByStudentService = async (
         },
     })
 
-    if (!registration) throw new AppError("Matrícula não encontrada", 404)
+    if (!registration) {
+        throw new AppError("Matrícula não encontrada", 404)
+    }
 
     const result = await prisma.registration.delete({
         where: {

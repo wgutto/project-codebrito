@@ -12,11 +12,7 @@ import {
 import { idSchema } from "./controllerFactory.js"
 import { updateRegistrationSchema } from "../config/validators/registrationSchema.js"
 
-export const getAllRegistrationsController: RequestHandler = async (
-    _req,
-    res,
-    next,
-) => {
+export const getAllRegistrationsController: RequestHandler = async (_req, res, next) => {
     try {
         const data = await getAllRegistrationsService()
 
@@ -26,24 +22,19 @@ export const getAllRegistrationsController: RequestHandler = async (
     }
 }
 
-export const getRegistrationsActivesByStudentController: RequestHandler =
-    async (req, res, next) => {
-        try {
-            const idParsed = idSchema.parse(req.params.id)
+export const getRegistrationsActivesByStudentController: RequestHandler = async (req, res, next) => {
+    try {
+        const idParsed = idSchema.parse(req.params.id)
 
-            const data = await getRegistrationsActivesByStudentService(idParsed)
+        const data = await getRegistrationsActivesByStudentService(idParsed)
 
-            return res.status(200).json(data)
-        } catch (error) {
-            next(error)
-        }
+        return res.status(200).json(data)
+    } catch (error) {
+        next(error)
     }
+}
 
-export const getRegistrationsByStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const getRegistrationsByStudentController: RequestHandler = async (req, res, next) => {
     try {
         const idParsed = idSchema.parse(req.params.id)
 
@@ -55,21 +46,14 @@ export const getRegistrationsByStudentController: RequestHandler = async (
     }
 }
 
-export const getRegistrationByStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const getRegistrationByStudentController: RequestHandler = async (req, res, next) => {
     try {
         const { studentId, id } = req.params
 
         const studentIdParsed = idSchema.parse(studentId)
         const idParsed = idSchema.parse(id)
 
-        const data = await getRegistrationByStudentService(
-            studentIdParsed,
-            idParsed,
-        )
+        const data = await getRegistrationByStudentService(studentIdParsed, idParsed)
 
         return res.status(200).json(data)
     } catch (error) {
@@ -77,40 +61,32 @@ export const getRegistrationByStudentController: RequestHandler = async (
     }
 }
 
-export const getRegistrationByStudentAndCountController: RequestHandler =
-    async (req, res, next) => {
-        try {
-            const id = req.params.id
+export const getRegistrationByStudentAndCountController: RequestHandler = async (req, res, next) => {
+    try {
+        const id = req.params.id
 
-            const idParsed = idSchema.parse(id)
+        const idParsed = idSchema.parse(id)
 
-            const data = await getRegistrationByStudentAndCountService(idParsed)
+        const data = await getRegistrationByStudentAndCountService(idParsed)
 
-            return res.status(200).json({
-                user: data.student,
-                count: data.count,
-                registrations: data.newData,
-            })
-        } catch (error) {
-            next(error)
-        }
+        return res.status(200).json({
+            user: data.student,
+            count: data.count,
+            registrations: data.newData,
+        })
+    } catch (error) {
+        next(error)
     }
+}
 
-export const createRegistrationByStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const createRegistrationByStudentController: RequestHandler = async (req, res, next) => {
     try {
         const { studentId, courseId } = req.params
 
         const studentIdParsed = idSchema.parse(studentId)
         const courseIdParsed = idSchema.parse(courseId)
 
-        const data = await createRegistrationByStudentService(
-            studentIdParsed,
-            courseIdParsed,
-        )
+        const data = await createRegistrationByStudentService(studentIdParsed, courseIdParsed)
 
         return res.status(201).json(data)
     } catch (error) {
@@ -118,11 +94,7 @@ export const createRegistrationByStudentController: RequestHandler = async (
     }
 }
 
-export const updateRegistrationByStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const updateRegistrationByStudentController: RequestHandler = async (req, res, next) => {
     try {
         const { studentId, id } = req.params
         const body = req.body
@@ -131,11 +103,7 @@ export const updateRegistrationByStudentController: RequestHandler = async (
         const idParsed = idSchema.parse(id)
         const bodyParsed = updateRegistrationSchema.parse(body)
 
-        const registrationUpdated = await updateRegistrationByStudentService(
-            studentIdParsed,
-            idParsed,
-            bodyParsed,
-        )
+        const registrationUpdated = await updateRegistrationByStudentService(studentIdParsed, idParsed, bodyParsed)
 
         return res.status(200).json(registrationUpdated)
     } catch (error) {
@@ -143,11 +111,7 @@ export const updateRegistrationByStudentController: RequestHandler = async (
     }
 }
 
-export const deleteRegistrationByStudentController: RequestHandler = async (
-    req,
-    res,
-    next,
-) => {
+export const deleteRegistrationByStudentController: RequestHandler = async (req, res, next) => {
     try {
         const { studentId, id } = req.params
 
