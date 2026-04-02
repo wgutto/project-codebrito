@@ -1,5 +1,5 @@
+import { RegistrationStatus } from "lib/generated/prisma/enums"
 import z from "zod"
-import { RegistrationStatus } from "../../lib/generated/prisma/enums.js"
 
 export const createRegistrationSchema = z.object({
     studentId: z.number({

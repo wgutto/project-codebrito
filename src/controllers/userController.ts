@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express"
 import { deleteStudentService, getAllUsersService, restoreUserService, userService } from "../services/userService.js"
 import { createController, idSchema } from "./controllerFactory.js"
-import { createUserSchema, updateUserSchema } from "../config/validators/userSchema.js"
+import { createUserSchema, updateUserSchema } from "validators/userSchema.js"
 
 export const userController = createController(userService, createUserSchema, updateUserSchema)
 

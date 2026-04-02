@@ -10,7 +10,7 @@ import {
     updateRegistrationByStudentService,
 } from "../services/registrationService.js"
 import { idSchema } from "./controllerFactory.js"
-import { updateRegistrationSchema } from "../config/validators/registrationSchema.js"
+import { updateRegistrationSchema } from "validators/registrationSchema.js"
 
 export const getAllRegistrationsController: RequestHandler = async (_req, res, next) => {
     try {

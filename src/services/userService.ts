@@ -1,8 +1,8 @@
-import type { CreateUserDto, UpdateUserDto } from "../config/validators/userSchema.js"
 import { Prisma, RegistrationStatus, UserStatus, type User } from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { createService } from "./serviceFactory.js"
 import { AppError } from "../utils/AppError.js"
+import { CreateUserDto, UpdateUserDto } from "validators/userSchema.js"
 
 const handlePrismaError = (error: unknown): never => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

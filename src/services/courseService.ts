@@ -1,4 +1,4 @@
-import type { CreateCourseDto, UpdateCourseDto } from "../config/validators/courseSchema.js"
+import { CreateCourseDto, UpdateCourseDto } from "validators/courseSchema.js"
 import { Prisma, RegistrationStatus, type Course } from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { AppError } from "../utils/AppError.js"

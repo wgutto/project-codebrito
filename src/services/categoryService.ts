@@ -1,4 +1,4 @@
-import type { CreateCategoryDto, UpdateCategoryDto } from "../config/validators/categorySchema.js"
+import { CreateCategoryDto, UpdateCategoryDto } from "validators/categorySchema.js"
 import { Prisma, type Category } from "../lib/generated/prisma/client.js"
 import { prisma } from "../lib/prisma.js"
 import { AppError } from "../utils/AppError.js"

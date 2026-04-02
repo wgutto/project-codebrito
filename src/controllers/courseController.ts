@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express"
-import { createCourseSchema, updateCourseSchema } from "../config/validators/courseSchema.js"
 import { courseService, getAllCoursesFilteredService, getCoursesCrowdedService } from "../services/courseService.js"
 import { createController } from "./controllerFactory.js"
+import { createCourseSchema, updateCourseSchema } from "validators/courseSchema.js"
 
 export const courseController = createController(courseService, createCourseSchema, updateCourseSchema)
 

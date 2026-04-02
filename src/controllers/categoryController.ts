@@ -1,4 +1,4 @@
-import { createCategorySchema, updateCategorySchema } from "../config/validators/categorySchema.js"
+import { createCategorySchema, updateCategorySchema } from "validators/categorySchema.js"
 import { categoryService } from "../services/categoryService.js"
 import { createController } from "./controllerFactory.js"
 
